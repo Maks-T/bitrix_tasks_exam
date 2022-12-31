@@ -2,13 +2,6 @@
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
 $APPLICATION->SetTitle("Интернет-магазин \"Одежда\"");
 
-use TS\Test;
-
-$test = new Test();
-
-$test->print("asdasda");
-
-
 ?>
 <?if (IsModuleInstalled("advertising")):?>
 	<div class="mb-5">
