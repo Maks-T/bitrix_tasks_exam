@@ -21,6 +21,7 @@ $curPage = $APPLICATION->GetCurPage(true);
 	<title><?$APPLICATION->ShowTitle()?></title>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 	<meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, width=device-width">
+    <meta property="specialdate" content="<? $APPLICATION->ShowProperty("specialdate", 100); ?>";
 	<link rel="shortcut icon" type="image/x-icon" href="<?=SITE_DIR?>favicon.ico" />
 	<? $APPLICATION->ShowHead(); ?>
 </head>
@@ -31,6 +32,7 @@ $curPage = $APPLICATION->GetCurPage(true);
 	"",
 	array()
 );?>
+
 <div class="bx-wrapper" id="bx_eshop_wrap">
 	<header class="bx-header">
 		<div class="bx-header-section container">
