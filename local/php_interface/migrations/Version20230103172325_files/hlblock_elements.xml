@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<items hlblockUid="Labels" exchangeVersion="2">
+    <item>
+        <field name="UF_COLOR_RGB">
+            <value>102, 204, 0</value>
+        </field>
+        <field name="UF_NAME_LABEL">
+            <value>Промокод на скидку</value>
+        </field>
+        <field name="UF_LINK_LABEL">
+            <value>#</value>
+        </field>
+        <field name="UF_XML_ID">
+            <value>promocode</value>
+        </field>
+    </item>
+    <item>
+        <field name="UF_COLOR_RGB">
+            <value>255, 255, 51</value>
+        </field>
+        <field name="UF_NAME_LABEL">
+            <value>Обзор</value>
+        </field>
+        <field name="UF_LINK_LABEL">
+            <value>#</value>
+        </field>
+        <field name="UF_XML_ID">
+            <value>preview</value>
+        </field>
+    </item>
+    <item>
+        <field name="UF_COLOR_RGB">
+            <value>255, 51, 51</value>
+        </field>
+        <field name="UF_NAME_LABEL">
+            <value>Новинка</value>
+        </field>
+        <field name="UF_LINK_LABEL">
+            <value>#</value>
+        </field>
+        <field name="UF_XML_ID">
+            <value>new</value>
+        </field>
+    </item>
+    <item>
+        <field name="UF_COLOR_RGB">
+            <value>204, 0, 0</value>
+        </field>
+        <field name="UF_NAME_LABEL">
+            <value>распродажа</value>
+        </field>
+        <field name="UF_LINK_LABEL">
+            <value>#</value>
+        </field>
+        <field name="UF_XML_ID">
+            <value>sale</value>
+        </field>
+    </item>
+</items>
