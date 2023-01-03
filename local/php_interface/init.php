@@ -10,5 +10,5 @@ require_once $_SERVER["DOCUMENT_ROOT"] . '/local/lib/helpers/debugger.php';
  */
 Loader::registerNamespace(
  "TS",
- "local/lib",
+  $_SERVER["DOCUMENT_ROOT"] . "/local/lib",
 );
