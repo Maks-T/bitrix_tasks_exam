@@ -4,7 +4,7 @@ use Bitrix\Main\Context;
 use Bitrix\Main\Engine\Contract\Controllerable;
 use Bitrix\Main\Loader;
 use Bitrix\Main\Mail\Event;
-
+use TS\ActionFilter\LengthValidator;
 
 class FeedBack extends \CBitrixComponent implements Controllerable
 {
@@ -16,7 +16,14 @@ class FeedBack extends \CBitrixComponent implements Controllerable
 
     return [
       'ajaxRequest' => [
-        'prefilters' => [],
+        'prefilters' => [
+          new LengthValidator([
+            'name' => 2,
+            'surname' => 2,
+            'message' => 10,
+            'department' => 1,
+          ]),
+        ],
       ],
     ];
   }
