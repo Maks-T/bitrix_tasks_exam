@@ -1,0 +1,23 @@
+
+.feadback-form {
+    padding: 15px;
+    border: 1px dashed rgba(131, 79, 178, 0.51);
+    border-radius: 5px;
+    max-width: 410px;
+}
+
+.feadback-form form {
+    display: flex;
+    flex-direction: column;
+    max-width: 380px;
+    row-gap: 15px;
+}
+
+.ui-alert-hidden {
+    display: none;
+}
+
+.feadback-form .ui-alert {
+    margin-top: 10px;
+}
+
