@@ -1,6 +1,6 @@
 <?php
 
-use \Bitrix\Main\Loader;
+use Bitrix\Main\Loader;
 
 require_once $_SERVER["DOCUMENT_ROOT"] . '/local/lib/helpers/debugger.php';
 

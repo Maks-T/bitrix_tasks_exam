@@ -15,15 +15,18 @@ $APPLICATION->SetTitle("Задайте вопрос");
 	<h2>Задать вопрос</h2>
 
 	<?$APPLICATION->IncludeComponent(
-		"bitrix:main.feedback",
-		"bootstrap_v4",
-		Array(
-			"EMAIL_TO" => "sale@nyuta.bx",
-			"EVENT_MESSAGE_ID" => array(),
-			"OK_TEXT" => "Спасибо, ваше сообщение принято.",
-			"REQUIRED_FIELDS" => array("NAME","EMAIL"),
-			"USE_CAPTCHA" => "Y"
+	"tsatsura:form.feedback", 
+	".default", 
+	array(
+		"EMAIL_TO" => "stt-msk@mail.ru",
+		"OK_TEXT" => "Спасибо, ваше сообщение принято.",
+		"COMPONENT_TEMPLATE" => ".default",
+		"IBLOCK_ID" => "4",
+		"EVENT_MESSAGE_ID" => array(
+			0 => "52",
 		)
-	);?>
+	),
+	false
+);?>
 
 <?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php")?>
