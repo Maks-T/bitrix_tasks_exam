@@ -2,6 +2,7 @@
 
 use Bitrix\Main\Context;
 use Bitrix\Main\Engine\Contract\Controllerable;
+use Bitrix\Main\Engine\Response\Component as ComponentResponse;
 use Bitrix\Main\Loader;
 use Bitrix\Main\Mail\Event;
 use TS\ActionFilter\LengthValidator;
@@ -64,9 +65,10 @@ class FeedBack extends \CBitrixComponent implements Controllerable
   }
 
   /**
-   * @return string
+   * @return ComponentResponse|string
+   * @throws \Bitrix\Main\LoaderException
    */
-  public function ajaxRequestAction(): string
+  public function ajaxRequestAction(): ComponentResponse|string
   {
 
     $request = Context::getCurrent()->getRequest();
@@ -88,7 +90,13 @@ class FeedBack extends \CBitrixComponent implements Controllerable
 
       $this->sendMail($arFields);
 
-      return "Ответ отправлен";
+      return new ComponentResponse(
+        "tsatsura:response",
+        ".default",
+        array(
+          'RESPONSE_MSG' => $this->arParams['OK_TEXT'],
+        )
+      );
     } else {
       return 'Error: ' . $ibElement;
     }
