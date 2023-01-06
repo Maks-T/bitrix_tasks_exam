@@ -6,8 +6,10 @@ namespace TS;
 
 use Bitrix\Main\ArgumentException;
 use Bitrix\Main\ArgumentNullException;
+use Bitrix\Main\ArgumentOutOfRangeException;
 use Bitrix\Main\LoaderException;
 use Bitrix\Main\Loader;
+use Bitrix\Main\NotImplementedException;
 use Bitrix\Sale\Order;
 
 class Orders
@@ -25,11 +27,16 @@ class Orders
   {
     $res = [];
     Loader::includeModule('sale');
+
+    $lastOrderId = Orders::getLastOrderId();
+    df($lastOrderId);
     $ordersId = Order::getList([
       'select' => [
         "ID",
       ],
-    ]); //ToDo добавить фетчить только новые
+      'filter' => array('>ID' => $lastOrderId)
+    ]);
+
 
     foreach ($ordersId as $orderId) {
 
@@ -87,5 +94,25 @@ class Orders
     }
 
     return $res;
+  }
+
+  /**
+   * @throws ArgumentNullException
+   * @throws ArgumentOutOfRangeException
+   * @throws NotImplementedException
+   * @throws ArgumentException
+   */
+  public static function saveLastOrderId(array $ordersArray): void
+  {
+    $lastOrderId = array_key_last($ordersArray);
+    file_put_contents($_SERVER['DOCUMENT_ROOT'] . '/upload/orders/config_export_orders.json',
+      json_encode(['lastOrderId' => $lastOrderId]));
+  }
+
+  public static function getLastOrderId(): int
+  {
+    $config = file_get_contents($_SERVER['DOCUMENT_ROOT'] . '/upload/orders/config_export_orders.json', true);
+
+    return $config ? json_decode($config, true)['lastOrderId'] : -1;
   }
 }

@@ -4,6 +4,10 @@ declare(strict_types=1);
 
 namespace TS;
 
+use Bitrix\Main\ArgumentException;
+use Bitrix\Main\ArgumentNullException;
+use Bitrix\Main\ArgumentOutOfRangeException;
+use Bitrix\Main\NotImplementedException;
 use  \Bitrix\Main\XmlWriter;
 
 class XMLOrdersWriter
@@ -12,6 +16,12 @@ class XMLOrdersWriter
   {
   }
 
+  /**
+   * @throws ArgumentNullException
+   * @throws ArgumentOutOfRangeException
+   * @throws ArgumentException
+   * @throws NotImplementedException
+   */
   public static function writeXML(array $ordersArray, string $pathFile = '/upload/orders/export.xml'): void
   {
     if (empty($ordersArray)) {
@@ -30,6 +40,7 @@ class XMLOrdersWriter
     self::writeValues($ordersArray, $export);
     $export->writeEndTag("orders");
     $export->closeFile();
+    Orders::saveLastOrderId($ordersArray);
   }
 
   private static function writeValues(array $ordersArray, XmlWriter $export): void
