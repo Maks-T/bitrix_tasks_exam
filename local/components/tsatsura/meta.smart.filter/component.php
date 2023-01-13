@@ -10,6 +10,7 @@ if (!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED !== true) {
  * @var array $arParams
  */
 
+
 if ($this->StartResultCache())  {
 
   Loader::includeModule('iblock');
@@ -17,12 +18,27 @@ if ($this->StartResultCache())  {
 
   $queries = explode('/', $arParams['URL_SMART_FILTER']);
 
+  $filterUrlParams = [];
+
   foreach ($queries as $query) {
-    $arQuery = explode('-is-', $query);
-    $filterUrlParams[] = [
-      'PROPERTY_CODE' => $arQuery[0],
-      'VALUES' => explode('-or-', $arQuery[1])
-    ];
+
+    if (str_contains($query, 'price')) {
+
+      $arResult['PRICE'] = [
+        'FROM' => substr($query, strpos($query,'-from-')+6 , strpos($query,'-from-') - strpos($query,'-to-')-1),
+        'TO' => substr($query, strpos($query,'-to-')+4)
+      ];
+    }
+    
+    if (str_contains($query, '-is-', )) {
+
+      $arQuery = explode('-is-', $query);
+      $filterUrlParams[] = [
+        'PROPERTY_CODE' => $arQuery[0],
+        'VALUES' => explode('-or-', $arQuery[1])
+      ];
+    }
+
   }
 
 //Получение данных о разделе
@@ -53,8 +69,7 @@ if ($this->StartResultCache())  {
     return in_array(strtolower($prop['CODE']), $arrayPropertiesUrl);
   });
 
-  $resArr = [];
-
+  $resArrProperty = [];
 
   foreach ($propsFieldsIblockSort as $prop) {
 
@@ -64,17 +79,17 @@ if ($this->StartResultCache())  {
 
       $indexUrlParams = array_search(strtolower($prop['CODE']), $arrayPropertiesUrl);
 
-      $resArrItem['VALUES'] = [];
+      $resArrPropertyItem['VALUES'] = [];
 
       while ($itemEnum = $enumOfProperty->GetNext()) {
         if (in_array($itemEnum['XML_ID'], $filterUrlParams[$indexUrlParams]['VALUES'])) {
 
-          $resArrItem['VALUES'][] = $itemEnum['VALUE'];
+          $resArrPropertyItem['VALUES'][] = $itemEnum['VALUE'];
         }
       }
-      if (!empty($resArrItem['VALUES'])) {
-        $resArrItem['PROPERTY_NAME'] = $prop['NAME'];
-        $resArr[] = $resArrItem;
+      if (!empty($resArrPropertyItem['VALUES'])) {
+        $resArrPropertyItem['PROPERTY_NAME'] = $prop['NAME'];
+        $resArrProperty[] = $resArrPropertyItem;
       }
       //получение списка значений из справочников
     } elseif (!empty($prop['USER_TYPE'])) {
@@ -87,7 +102,7 @@ if ($this->StartResultCache())  {
 
       $indexUrlParams = array_search(strtolower($prop['CODE']), $arrayPropertiesUrl);
 
-      $resArrItem['VALUES'] = [];
+      $resArrPropertyItem['VALUES'] = [];
 
       foreach ($filterUrlParams[$indexUrlParams]['VALUES'] as $xmlId) {
         $itemHLDBlock = $hlClassName::getList([
@@ -96,29 +111,29 @@ if ($this->StartResultCache())  {
           ),
           'select' => array("*"),
         ])->fetch();
-        $resArrItem['VALUES'][] = $itemHLDBlock['UF_NAME'];
+        $resArrPropertyItem['VALUES'][] = $itemHLDBlock['UF_NAME'];
 
       }
 
-      if (!empty($resArrItem['VALUES'])) {
-        $resArrItem['PROPERTY_NAME'] = $prop['NAME'];
-        $resArr[] = $resArrItem;
+      if (!empty($resArrPropertyItem['VALUES'])) {
+        $resArrPropertyItem['PROPERTY_NAME'] = $prop['NAME'];
+        $resArrProperty[] = $resArrPropertyItem;
       }
 
       //получение простого строкового значения
     } elseif ($prop['PROPERTY_TYPE'] == 'S' && empty($prop['USER_TYPE'])) {
       $indexUrlParams = array_search(strtolower($prop['CODE']), $arrayPropertiesUrl);
 
-      $resArrItem['VALUES'] = $filterUrlParams[$indexUrlParams]['VALUES'];
+      $resArrPropertyItem['VALUES'] = $filterUrlParams[$indexUrlParams]['VALUES'];
 
-      if (!empty($resArrItem['VALUES'])) {
-        $resArrItem['PROPERTY_NAME'] = $prop['NAME'];
-        $resArr[] = $resArrItem;
+      if (!empty($resArrPropertyItem['VALUES'])) {
+        $resArrPropertyItem['PROPERTY_NAME'] = $prop['NAME'];
+        $resArrProperty[] = $resArrPropertyItem;
       }
     }
   }
 
-  $arResult['PROPERTIES'] = $resArr;
+  $arResult['PROPERTIES'] = $resArrProperty;
 
   $this->IncludeComponentTemplate();
 }
@@ -165,4 +180,3 @@ function selectPropertiesFromPropertyResult(CIBlockPropertyResult $propIBlock, a
 
   return $propsFields;
 }
-
