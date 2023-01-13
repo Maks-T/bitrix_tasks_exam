@@ -2,4 +2,4 @@
 /upload/
 .idea/
 
-!.settings_extra.php
+!bitrix/.settings_extra.php
