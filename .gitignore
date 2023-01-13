@@ -1,3 +1,5 @@
 /bitrix/
 /upload/
 .idea/
+
+!.settings_extra.php
