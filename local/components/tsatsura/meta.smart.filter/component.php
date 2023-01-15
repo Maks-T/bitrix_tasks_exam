@@ -23,13 +23,13 @@ if ($this->StartResultCache())  {
   foreach ($queries as $query) {
 
     if (str_contains($query, 'price')) {
-
+      $query = str_replace('price-base-from-', '', $query);
       $arResult['PRICE'] = [
-        'FROM' => substr($query, strpos($query,'-from-')+6 , strpos($query,'-from-') - strpos($query,'-to-')-1),
-        'TO' => substr($query, strpos($query,'-to-')+4)
+        'FROM' => explode('-to-',  $query)[0],
+        'TO' =>  explode('-to-',  $query)[1]
       ];
     }
-    
+
     if (str_contains($query, '-is-', )) {
 
       $arQuery = explode('-is-', $query);
@@ -40,7 +40,7 @@ if ($this->StartResultCache())  {
     }
 
   }
-
+  
 //Получение данных о разделе
   $arFilterSection = [
     'IBLOCK_ID' => $arParams['CATALOG_IBLOCK_ID'],
@@ -165,16 +165,16 @@ function selectPropertiesFromIBlock(int $iblockId,  array $keyProperties): array
 function selectPropertiesFromPropertyResult(CIBlockPropertyResult $propIBlock, array $keyProperties): array
 {
   $propsFields = [];
-  
+
   while ($prop_fields = $propIBlock->GetNext())
   {
 
     $prop = [];
-    
+
     foreach ( $keyProperties as $nameProperty) {
       $prop[$nameProperty] =  $prop_fields[$nameProperty];
     }
-    
+
     $propsFields[] =  $prop;
   }
 
