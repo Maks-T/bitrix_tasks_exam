@@ -205,6 +205,7 @@ $curPage = $APPLICATION->GetCurPage(true);
 					</div>
 				</div>
 				<h1 id="pagetitle"><?$APPLICATION->ShowTitle(false);?></h1>
+
 			<?endif?>
 			<!--endregion-->
 		</div>
